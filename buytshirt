@@ -1,0 +1,71 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+import java.util.concurrent.TimeUnit;
+
+public class BuyTshirt {
+
+    WebDriver driver;
+
+    @BeforeTest
+    public void beforeTest() {
+        System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+        driver.manage().deleteAllCookies();
+        driver.get("http://automationpractice.com/index.php");
+        driver.manage().window().maximize();
+    }
+
+    @AfterTest
+    public void afterTest() {
+        driver.manage().deleteAllCookies();
+        driver.quit();
+    }
+
+
+    @Test
+    public void buyTshirt() throws InterruptedException {
+
+        driver.findElement(By.xpath("//a[@title='Log in to your customer account']")).click();
+        driver.findElement(By.id("email")).sendKeys("kasikaaakaakupiecka.1994@gmail.com");
+        driver.findElement(By.id("passwd")).sendKeys("Jakieshaslo2019");
+        driver.findElement(By.xpath("//button[@id='SubmitLogin']//span")).click();
+
+        driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/header[1]/div[3]/div[1]/div[1]/div[6]/ul[1]/li[3]/a[1]")).click();
+        driver.findElement(By.id("layered_id_attribute_group_2")).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath("//li[@id='list']")).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath("//span[contains(text(),'Add to cart')]")).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath("//span[@title='Close window']")).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath("//a[@title='View my shopping cart']")).click();
+        driver.findElement(By.xpath("//p[@class='cart_navigation clearfix']//span")).click();
+        driver.findElement(By.xpath("//button[@name='processAddress']//span")).click();
+        driver.findElement(By.xpath("//input[@id='cgv']")).click();
+        driver.findElement(By.xpath("//button[@name='processCarrier']//span")).click();
+        driver.findElement(By.xpath("//a[@title='Pay by bank wire']")).click();
+        driver.findElement(By.xpath("//p[@id='cart_navigation']//span")).click();
+
+        WebElement complete = (driver.findElement(By.xpath("//p[@class='cheque-indent']")));
+        boolean bool = complete.isDisplayed();
+        Assert.assertEquals(true, bool);
+
+
+
+
+
+
+
+    }
+
+}

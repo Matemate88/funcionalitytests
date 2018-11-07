@@ -1,0 +1,75 @@
+import net.bytebuddy.asm.Advice;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+import java.util.concurrent.TimeUnit;
+
+public class RegisterTest {
+        WebDriver driver;
+
+
+
+        @BeforeTest
+        public void beforeTest() {
+            System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chromedriver.exe");
+            driver = new ChromeDriver();
+            driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+            driver.manage().deleteAllCookies();
+            driver.get("http://automationpractice.com/index.php");
+            driver.manage().window().maximize();
+        }
+
+        @AfterTest
+        public void afterTest() {
+            driver.manage().deleteAllCookies();
+            driver.quit();
+        }
+
+        @Test
+        public void registerTest() throws InterruptedException {
+
+            driver.findElement(By.xpath("//a[@title='Log in to your customer account']")).click();
+            driver.findElement(By.id("email_create")).sendKeys("kasikaaakaakupiecka.1994@gmail.com");
+            driver.findElement(By.xpath("//button[@id='SubmitCreate']//span")).click();
+            driver.findElement(By.id("id_gender2")).click();
+            driver.findElement(By.id("customer_firstname")).sendKeys("Kasia");
+            driver.findElement(By.id("customer_lastname")).sendKeys("Kupiecka");
+            driver.findElement(By.id("email")).click();
+            driver.findElement(By.id("passwd")).sendKeys("Jakieshaslo2019");
+            Select days = new Select(driver.findElement(By.name("days")));
+            days.selectByValue("10");
+            Select months = new Select(driver.findElement(By.name("months")));
+            months.selectByValue("9");
+            Select years = new Select(driver.findElement(By.name("years")));
+            years.selectByValue("1994");
+            driver.findElement(By.id("newsletter")).click();
+            driver.findElement(By.id("optin")).click();
+            driver.findElement(By.id("firstname")).sendKeys("Kasia");
+            driver.findElement(By.id("lastname")).sendKeys("Kupiecka");
+            driver.findElement(By.id("address1")).sendKeys("Hawajska 17m.3");
+            driver.findElement(By.id("city")).sendKeys("Warsaw");
+            Select state = new Select(driver.findElement(By.id("id_state")));
+            state.selectByValue("10");
+            driver.findElement(By.id("postcode")).sendKeys("12345");
+            Select country = new Select(driver.findElement(By.id("id_country")));
+            country.selectByValue("21");
+            driver.findElement(By.id("phone_mobile")).sendKeys("123456789");
+            driver.findElement(By.id("alias")).clear();
+            driver.findElement(By.id("alias")).sendKeys("Hawajska");
+            Thread.sleep(6000);
+            driver.findElement(By.xpath("//button[@id='submitAccount']//span")).click();
+            Thread.sleep(6000);
+
+            WebElement logout = (driver.findElement(By.xpath("//a[@title='Log me out']")));
+            boolean bool = logout.isDisplayed();
+            Assert.assertEquals(true, bool);
+
+        }
+}
